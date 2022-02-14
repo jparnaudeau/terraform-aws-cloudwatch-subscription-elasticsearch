@@ -24,7 +24,7 @@ variable "tags" {
 #######################################
 variable "function_name" {
   type        = string
-  description = "The lambda function name. Format lbd-{environment}-{function_name}" 
+  description = "The lambda function name. Format lbd-{environment}-{function_name}"
   default     = "stream-logs"
 }
 

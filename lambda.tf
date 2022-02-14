@@ -9,7 +9,7 @@ module "lambda" {
   version = "2.34.0"
 
   # set global attributs
-  function_name = format("lbd-%s-%s", var.environment,var.function_name)
+  function_name = format("lbd-%s-%s", var.environment, var.function_name)
   description   = "Stream RDS Logs on ElasticSearch"
   publish       = true
   handler       = "index.handler"
@@ -42,7 +42,7 @@ data "aws_cloudwatch_log_group" "rds_logs" {
 }
 
 resource "aws_lambda_permission" "cloudwatch-logs-invoke-elasticsearch-lambda" {
-  statement_id   = format("rp-%s-%s-logs-to-es",var.environment,var.rds_name)
+  statement_id   = format("rp-%s-%s-logs-to-es", var.environment, var.rds_name)
   action         = "lambda:InvokeFunction"
   function_name  = module.lambda.lambda_function_arn
   principal      = "logs.${var.region}.amazonaws.com"
@@ -55,7 +55,7 @@ resource "aws_lambda_permission" "cloudwatch-logs-invoke-elasticsearch-lambda" {
 # Deploy a subscription filter on RDS Cloudwatch Logs
 ###########################################
 resource "aws_cloudwatch_log_subscription_filter" "rds_cw_subscription" {
-  name            = format("subsr-%s-%s-logs",var.environment,var.rds_name)
+  name            = format("subsr-%s-%s-logs", var.environment, var.rds_name)
   log_group_name  = var.rds_cloudwatch_log_name
   filter_pattern  = "[date, time, misc, message]"
   destination_arn = module.lambda.lambda_function_arn
